@@ -1,0 +1,71 @@
+UseCaseDiagram [frame=true framecolor=steelblue label="Usecase Diagram"]{
+
+ actor c as "Client" 
+ actor asso as "Association"
+ actor animAsso as "Animateur avec autorisations"
+ actor anim as "Animateur"
+ 
+ system "BingoLive" as site [fillcolor=whitesmoke]{
+  usecase participer as "Participer à un event" [fillcolor= "#f5cba7"]
+  usecase creer as "Créer un event" [fillcolor= "#f5cba7"]
+  usecase offrir as "Offrir des cartons" [fillcolor= "#f5cba7"]
+  usecase lancer as "Lancer un event" [fillcolor= "#f5cba7"]
+  
+  usecase suivi as "Suivi de carton"
+  usecase complet as "Complet"
+  usecase doublon as "Doublon"
+
+  usecase achat as "Acheter un carton"
+  usecase utiliser as "Utiliser un carton de son compte"
+  usecase choisir as "Choisir les numéros"
+  usecase auto as "Générer automatiquement"
+  usecase manuel as "Manuel"
+  usecase saisie as "Saisie"
+  usecase import as "Importer le carton"
+  usecase bingo as "Dire bingo"
+
+  usecase typeCar as "Type de cartons utilisés"
+  usecase choixAnim as "Choisir un animateur"
+  usecase ajoutLots as "Ajouter des lots"
+  usecase nbUserMAx as "Définir le nombre de joueurs max"
+
+  usecase modifManche as "Modifier une manche"
+  usecase changeManche as "Changer de manche"
+  usecase arreter as "Arreter un event"
+  usecase tirage as "Effectuer un tirage"
+  usecase verifCar as "Vérifier les cartons gagnants"
+  usecase envoieLot as "Envoyer les lots"
+ }
+
+ animAsso --> anim
+ animAsso --> asso
+
+ c -- participer
+  participer <-- suivi
+   suivi <-- complet
+   suivi <-- doublon
+  participer <-- achat
+  participer <-- utiliser
+  participer <-- bingo
+  participer -i-> choisir
+   choisir <-- auto
+   choisir <-- manuel
+    manuel <-- saisie
+    manuel <-- import
+
+ asso -- creer
+  creer -i-> typeCar
+  creer -i-> choixAnim
+  creer -i-> ajoutLots
+  creer -i-> nbUserMAx
+
+ animAsso -- offrir
+
+ anim -- lancer
+  lancer --> modifManche
+  lancer --> tirage
+   tirage <-e- verifCar
+  lancer --> arreter
+  lancer --> envoieLot
+   envoieLot --> changeManche
+}
